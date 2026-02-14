@@ -10,40 +10,44 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.example.com.minibank.dao.impl.CustomerDaoImpl;
+import org.example.com.minibank.dao.inter.CustomerDaoInter;
+import org.example.com.minibank.model.account.Account;
 import org.example.com.minibank.model.user.Customer;
-import org.example.com.minibank.service.impl.AuthServiceImpl;
-import org.example.com.minibank.service.inter.AuthServiceInter;
 
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "RegisterController", urlPatterns = {"/RegisterController"})
+public class RegisterController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        AuthServiceInter authServiceInter = new AuthServiceImpl();
 
+        CustomerDaoInter customerDaoInter = new CustomerDaoImpl();
+
+        String name = request.getParameter("name");
+        String surname = request.getParameter("surname");
+        String azeID = request.getParameter("azeID");
+        int age = Integer.parseInt(request.getParameter("age"));
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        Customer customer = authServiceInter.login(username, password);
-        System.out.println("username= " + username);
-        if (customer != null) {
-            request.getSession().setAttribute("loggedInCustomer", customer);
-            response.sendRedirect("CustomerDetailsController");
-        } else {
-            request.setAttribute("errorMessage", "İstifadeçi adı veya şifre sehvdir!");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        }
+
+        Customer customer = Customer.createNewCustomer(new Account(), name, surname, age, azeID, username, password);
+
+        customerDaoInter.addCustomer(customer);
+        HttpSession session = request.getSession();
+        session.setAttribute("loggedInCustomer", customer);
+
+        response.sendRedirect("customer.jsp");
     }
 
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
-
+    }// </editor-fold>
 }

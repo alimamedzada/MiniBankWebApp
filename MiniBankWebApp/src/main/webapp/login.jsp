@@ -14,23 +14,24 @@
         <title>Login Page</title>
     </head>
     <body>
-        <div class="container vh-100 d-flex justify-content-center align-items-center">
-            <div class="text-center p-5 shadow rounded bg-light">
-                <form action="${pageContext.request.contextPath}/LoginController"  method="POST">
-                    <div class="form-group">
-                        <label class="form-label" for="username">Username</label>
-                        <input type="text" class="form-control" placeholder="Enter username" name="username" />
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="password">Password</label>
-                        <input type="password" class="form-control" placeholder="Enter password" name="password" />
-                    </div>
-                    <div class="mt-2">
-                        <button type="submit" class="d-grid btn btn-primary">Login</button>
-                    </div>
-                </form>
-            </div>
+        <div class="container">
+            <div class="vh-100 d-flex justify-content-center align-items-center">
+                <div class="text-center p-5 shadow rounded bg-light">
+                    <form action="${pageContext.request.contextPath}/LoginController"  method="POST">
+                        <div class="form-group">
+                            <label class="form-label" for="username">Username</label>
+                            <input type="text" class="form-control" placeholder="Enter username" name="username" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password" class="form-control" placeholder="Enter password" name="password" />
+                        </div>
+                        <div class="mt-2">
+                            <button type="submit" class="d-grid btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>    
         </div>
-
     </body>
 </html>
