@@ -11,33 +11,23 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.com.minibank.entity.Customers;
 
-@WebServlet(name = "CustomerDetailsController", urlPatterns = {"/CustomerDetailsController"})
-public class CustomerDetailsController extends HttpServlet {
+@WebServlet(name = "LogoutController", urlPatterns = {"/logout"})
+public class LogoutController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
-        
-        HttpSession session = request.getSession();
-        Customers customer = (Customers) session.getAttribute("loggedInCustomer");
-
-        if (customer != null) {
-            request.setAttribute("loggedInCustomer", customer);
-            request.getRequestDispatcher("/customer.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("login.jsp");
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
         }
+
+        response.sendRedirect("login.jsp");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     }
-
 }

@@ -34,7 +34,7 @@
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-danger fw-bold" href="index.jsp">Logout</a>
+                            <a class="nav-link text-danger fw-bold" href="logout">Logout</a>
                         </li>
                     </ul>
                 </div>

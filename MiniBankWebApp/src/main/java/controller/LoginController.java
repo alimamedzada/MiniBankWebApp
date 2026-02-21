@@ -10,7 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.com.minibank.model.user.Customer;
+import org.example.com.minibank.entity.Customers;
 import org.example.com.minibank.service.impl.AuthServiceImpl;
 import org.example.com.minibank.service.inter.AuthServiceInter;
 
@@ -30,7 +30,7 @@ public class LoginController extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        Customer customer = authServiceInter.login(username, password);
+        Customers customer = authServiceInter.login(username, password);
         System.out.println("username= " + username);
         if (customer != null) {
             request.getSession().setAttribute("loggedInCustomer", customer);
@@ -40,10 +40,4 @@ public class LoginController extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
 }

@@ -11,10 +11,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.com.minibank.dao.impl.CustomerDaoImpl;
-import org.example.com.minibank.dao.inter.CustomerDaoInter;
-import org.example.com.minibank.model.account.Account;
-import org.example.com.minibank.model.user.Customer;
+import org.example.com.minibank.entity.Customers;
+import org.example.com.minibank.service.impl.CustomerServiceImpl;
+import org.example.com.minibank.service.inter.CustomerServiceInter;
 
 @WebServlet(name = "RegisterController", urlPatterns = {"/RegisterController"})
 public class RegisterController extends HttpServlet {
@@ -28,7 +27,7 @@ public class RegisterController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        CustomerDaoInter customerDaoInter = new CustomerDaoImpl();
+        CustomerServiceInter customerDao = new CustomerServiceImpl();
 
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
@@ -37,9 +36,9 @@ public class RegisterController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        Customer customer = Customer.createNewCustomer(new Account(), name, surname, age, azeID, username, password);
+        Customers customer = Customers.createNewCustomer(name, surname, age, azeID, username, password);
 
-        customerDaoInter.addCustomer(customer);
+        customerDao.addCustomer(customer);
         HttpSession session = request.getSession();
         session.setAttribute("loggedInCustomer", customer);
 
