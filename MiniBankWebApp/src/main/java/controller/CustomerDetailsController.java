@@ -19,14 +19,12 @@ public class CustomerDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
-        
-        HttpSession session = request.getSession();
-        Customers customer = (Customers) session.getAttribute("loggedInCustomer");
 
+        HttpSession session = request.getSession(false);
+        Customers customer = null;
+        if (session != null) {
+            customer = (Customers) session.getAttribute("loggedInCustomer");
+        }
         if (customer != null) {
             request.setAttribute("loggedInCustomer", customer);
             request.getRequestDispatcher("/customer.jsp").forward(request, response);

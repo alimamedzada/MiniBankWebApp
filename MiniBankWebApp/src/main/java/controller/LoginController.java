@@ -21,6 +21,11 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        if (request.getSession().getAttribute("loggedInCustomer") != null) {
+            response.sendRedirect("CustomerDetailsController");
+            return;
+        }
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     @Override
@@ -30,13 +35,14 @@ public class LoginController extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        Customers customer = authServiceInter.login(username, password);
-        System.out.println("username= " + username);
-        if (customer != null) {
-            request.getSession().setAttribute("loggedInCustomer", customer);
-            response.sendRedirect("CustomerDetailsController");
-        } else {
-            request.setAttribute("errorMessage", "İstifadeçi adı veya şifre sehvdir!");
+        try {
+            Customers customer = authServiceInter.login(username, password);
+            if (customer != null) {
+                request.getSession().setAttribute("loggedInCustomer", customer);
+                response.sendRedirect("CustomerDetailsController");
+            }
+        } catch (Exception ex) {
+            request.setAttribute("errorMessage", ex.getMessage());
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

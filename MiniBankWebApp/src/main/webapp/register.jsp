@@ -12,6 +12,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
+    <% if (request.getAttribute("errorMessage") != null) {%>
+    <div class="alert alert-danger" style="color: red; border: 1px solid red; padding: 10px;">
+        <%= request.getAttribute("errorMessage")%>
+    </div>
+    <% }%>
     <body>
         <div class="container vh-100 d-flex justify-content-center align-items-center">
             <div class="col-md-4 p-5 shadow rounded-3 p-3 bg-light">

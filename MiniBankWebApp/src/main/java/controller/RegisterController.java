@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.com.minibank.entity.Customers;
+import org.example.com.minibank.exception.InputValidationException;
 import org.example.com.minibank.service.impl.CustomerServiceImpl;
 import org.example.com.minibank.service.inter.CustomerServiceInter;
 
@@ -21,6 +22,12 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        if (request.getSession().getAttribute("loggedInCustomer") != null) {
+            response.sendRedirect("CustomerDetailsController");
+            return;
+        }
+        request.getRequestDispatcher("register.jsp").forward(request, response);
     }
 
     @Override
@@ -35,18 +42,20 @@ public class RegisterController extends HttpServlet {
         int age = Integer.parseInt(request.getParameter("age"));
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        System.out.println("password= " + password);
 
         Customers customer = Customers.createNewCustomer(name, surname, age, azeID, username, password);
+        try {
+            customerDao.addCustomer(customer);
+            HttpSession session = request.getSession();
 
-        customerDao.addCustomer(customer);
-        HttpSession session = request.getSession();
-        session.setAttribute("loggedInCustomer", customer);
+            session.setAttribute("loggedInCustomer", customer);
+            response.sendRedirect("CustomerDetailsController");
 
-        response.sendRedirect("customer.jsp");
+            return;
+        } catch (InputValidationException ex) {
+            request.setAttribute("errorMessage", ex.getMessage());
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        }
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 }

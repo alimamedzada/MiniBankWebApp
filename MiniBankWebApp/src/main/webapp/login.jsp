@@ -14,10 +14,15 @@
         <title>Login Page</title>
     </head>
     <body>
+        <% if (request.getAttribute("errorMessage") != null) {%>
+        <div class="alert alert-danger" style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 15px;">
+            <%= request.getAttribute("errorMessage")%>
+        </div>
+        <% }%>
         <div class="container">
             <div class="vh-100 d-flex justify-content-center align-items-center">
                 <div class="text-center p-5 shadow rounded bg-light">
-                    <form action="${pageContext.request.contextPath}/LoginController"  method="POST">
+                    <form action="LoginController"  method="POST">
                         <div class="form-group">
                             <label class="form-label" for="username">Username</label>
                             <input type="text" class="form-control" placeholder="Enter username" name="username" />

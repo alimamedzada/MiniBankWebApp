@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="org.example.com.minibank.entity.Customers"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,6 +16,9 @@
     </head>
     <body>
         <jsp:include page="navbar.jsp"/>
-
+        <%
+            Customers customer = (Customers) session.getAttribute("loggedInCustomer");
+        %>
+        <%=customer.getUsername()%>
     </body>
 </html>
