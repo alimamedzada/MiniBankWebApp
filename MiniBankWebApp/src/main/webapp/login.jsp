@@ -25,7 +25,7 @@
                     <form action="LoginController"  method="POST">
                         <div class="form-group">
                             <label class="form-label" for="username">Username</label>
-                            <input type="text" class="form-control" placeholder="Enter username" name="username" />
+                            <input type="text" class="form-control" placeholder="Enter username" name="username" value="<%= (request.getAttribute("cookieUsername") != null) ? request.getAttribute("cookieUsername") : ""%>"/>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="password">Password</label>
@@ -33,6 +33,10 @@
                         </div>
                         <div class="mt-2">
                             <button type="submit" class="d-grid btn btn-primary">Login</button>
+                        </div>
+                        <div class="form-check mt-2 text-start">
+                            <input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe" value="remember me"/>
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
                         </div>
                     </form>
                 </div>
